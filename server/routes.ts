@@ -1,14 +1,19 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Serve static files from attached_assets directory
-  app.use('/assets', (req, res, next) => {
-    const assetsPath = path.resolve(process.cwd(), 'attached_assets');
-    const express = require('express');
-    express.static(assetsPath)(req, res, next);
+  // Serve our static HTML files
+  app.use('/attached_assets', express.static(path.resolve(process.cwd(), 'attached_assets')));
+
+  // Serve static files (HTML, CSS, JS)
+  app.use(express.static(process.cwd()));
+
+  // Serve our main HTML file at /site route
+  app.get('/site', (req, res) => {
+    res.sendFile(path.resolve(process.cwd(), 'index.html'));
   });
 
   // Contact form endpoint
