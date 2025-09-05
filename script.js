@@ -99,40 +99,30 @@ function getNumbersOnly(phone) {
 
 async function validateWhatsApp(phoneNumber) {
     try {
-        const fullNumber = `55${phoneNumber}`;
-        console.log('Validando número:', fullNumber);
+        console.log('Validando número:', phoneNumber);
         
-        const response = await fetch('https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr', {
+        const response = await fetch('/api/validate-whatsapp', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                numbers: [fullNumber]
+                number: phoneNumber
             })
         });
         
         console.log('Response status:', response.status);
         
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Erro na resposta da API:', response.status, errorText);
+            const errorData = await response.json();
+            console.error('Erro na validação:', response.status, errorData);
             throw new Error(`Erro na validação: ${response.status}`);
         }
         
         const data = await response.json();
-        console.log('Resposta da API:', data);
+        console.log('Resposta da validação:', data);
         
-        // Check if the response has the expected format and exists is true
-        if (data && Array.isArray(data) && data.length > 0) {
-            const numberInfo = data[0];
-            console.log('Info do número:', numberInfo);
-            return numberInfo.exists === true;
-        }
-        
-        console.log('Resposta inválida ou vazia');
-        return false;
+        return data.valid === true;
     } catch (error) {
         console.error('Erro ao validar WhatsApp:', error);
         return false;
@@ -199,7 +189,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Set timeout for validation
                 validationTimeout = setTimeout(async () => {
-                    const isValid = await validateWhatsApp(numbersOnly);
+                    // Remove the leading 55 if it exists to avoid duplication
+                    let cleanNumber = numbersOnly;
+                    if (cleanNumber.startsWith('55') && cleanNumber.length === 13) {
+                        cleanNumber = cleanNumber.substring(2);
+                    }
+                    
+                    const isValid = await validateWhatsApp(cleanNumber);
                     
                     if (isValid) {
                         updateWhatsAppStatus(whatsappInput, whatsappStatus, true, 'Número válido! ✓');
