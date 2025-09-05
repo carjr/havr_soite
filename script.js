@@ -99,6 +99,9 @@ function getNumbersOnly(phone) {
 
 async function validateWhatsApp(phoneNumber) {
     try {
+        const fullNumber = `55${phoneNumber}`;
+        console.log('Validando número:', fullNumber);
+        
         const response = await fetch('https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr', {
             method: 'POST',
             headers: {
@@ -106,22 +109,29 @@ async function validateWhatsApp(phoneNumber) {
                 'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
             },
             body: JSON.stringify({
-                numbers: [`55${phoneNumber}`]
+                numbers: [fullNumber]
             })
         });
         
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
-            throw new Error('Erro na validação');
+            const errorText = await response.text();
+            console.error('Erro na resposta da API:', response.status, errorText);
+            throw new Error(`Erro na validação: ${response.status}`);
         }
         
         const data = await response.json();
+        console.log('Resposta da API:', data);
         
         // Check if the response has the expected format and exists is true
         if (data && Array.isArray(data) && data.length > 0) {
             const numberInfo = data[0];
+            console.log('Info do número:', numberInfo);
             return numberInfo.exists === true;
         }
         
+        console.log('Resposta inválida ou vazia');
         return false;
     } catch (error) {
         console.error('Erro ao validar WhatsApp:', error);
