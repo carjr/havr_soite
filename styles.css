@@ -782,6 +782,51 @@ body {
     min-height: 5rem;
 }
 
+/* WhatsApp validation status */
+.whatsapp-status {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: none;
+}
+
+.whatsapp-status.validating {
+    display: block;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}
+
+.whatsapp-status.valid {
+    display: block;
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+.whatsapp-status.invalid {
+    display: block;
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.form-input.valid {
+    border-color: #22c55e;
+}
+
+.form-input.invalid {
+    border-color: #ef4444;
+}
+
+.btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .contact-info-wrapper {
     display: flex;
     flex-direction: column;

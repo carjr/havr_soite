@@ -72,10 +72,147 @@ function showToast(message, type = 'success') {
     }, 4000);
 }
 
+// WhatsApp mask and validation
+let whatsappValid = false;
+let validationTimeout = null;
+
+function applyWhatsAppMask(input) {
+    let value = input.value.replace(/\D/g, '');
+    
+    if (value.length >= 11) {
+        value = value.substring(0, 11);
+        value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (value.length >= 7) {
+        value = value.replace(/^(\d{2})(\d{0,5})(\d{0,4})$/, '($1) $2-$3');
+    } else if (value.length >= 3) {
+        value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+    } else if (value.length >= 1) {
+        value = value.replace(/^(\d{0,2})$/, '($1');
+    }
+    
+    input.value = value;
+}
+
+function getNumbersOnly(phone) {
+    return phone.replace(/\D/g, '');
+}
+
+async function validateWhatsApp(phoneNumber) {
+    try {
+        const response = await fetch('https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
+            },
+            body: JSON.stringify({
+                numbers: [`55${phoneNumber}`]
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Erro na validação');
+        }
+        
+        const data = await response.json();
+        
+        // Check if the number has WhatsApp
+        if (data && data.length > 0) {
+            const numberInfo = data[0];
+            return numberInfo.exists === true || numberInfo.jid;
+        }
+        
+        return false;
+    } catch (error) {
+        console.error('Erro ao validar WhatsApp:', error);
+        return false;
+    }
+}
+
+function updateWhatsAppStatus(input, statusDiv, isValid, message) {
+    statusDiv.className = 'whatsapp-status';
+    input.className = 'form-input';
+    
+    if (isValid === null) {
+        statusDiv.classList.add('validating');
+        statusDiv.textContent = message;
+    } else if (isValid) {
+        statusDiv.classList.add('valid');
+        input.classList.add('valid');
+        statusDiv.textContent = message;
+        whatsappValid = true;
+    } else {
+        statusDiv.classList.add('invalid');
+        input.classList.add('invalid');
+        statusDiv.textContent = message;
+        whatsappValid = false;
+    }
+    
+    updateSubmitButton();
+}
+
+function updateSubmitButton() {
+    const submitButton = document.querySelector('button[type="submit"]');
+    if (submitButton) {
+        submitButton.disabled = !whatsappValid;
+    }
+}
+
 // Contact form submission
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
+    const whatsappInput = document.getElementById('whatsapp');
+    const whatsappStatus = document.getElementById('whatsapp-status');
     
+    // Initialize submit button as disabled
+    updateSubmitButton();
+    
+    // WhatsApp input event listeners
+    if (whatsappInput && whatsappStatus) {
+        whatsappInput.addEventListener('input', function(e) {
+            applyWhatsAppMask(e.target);
+            
+            const numbersOnly = getNumbersOnly(e.target.value);
+            
+            // Clear previous timeout
+            if (validationTimeout) {
+                clearTimeout(validationTimeout);
+            }
+            
+            // Reset validation state
+            whatsappValid = false;
+            updateSubmitButton();
+            
+            if (numbersOnly.length === 11) {
+                // Show validating status
+                updateWhatsAppStatus(whatsappInput, whatsappStatus, null, 'Verificando número...');
+                
+                // Set timeout for validation
+                validationTimeout = setTimeout(async () => {
+                    const isValid = await validateWhatsApp(numbersOnly);
+                    
+                    if (isValid) {
+                        updateWhatsAppStatus(whatsappInput, whatsappStatus, true, 'Número válido! ✓');
+                    } else {
+                        updateWhatsAppStatus(whatsappInput, whatsappStatus, false, 'Este número não possui WhatsApp. Digite um número válido.');
+                    }
+                }, 1000);
+            } else if (numbersOnly.length > 0) {
+                updateWhatsAppStatus(whatsappInput, whatsappStatus, false, 'Digite um número completo (11 dígitos)');
+            } else {
+                whatsappStatus.className = 'whatsapp-status';
+            }
+        });
+        
+        // Prevent non-numeric input
+        whatsappInput.addEventListener('keypress', function(e) {
+            if (!/[\d\(\)\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter'].includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+    }
+    
+    // Form submission
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -84,10 +221,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(contactForm);
             const name = formData.get('name');
             const email = formData.get('email');
+            const whatsapp = formData.get('whatsapp');
             const message = formData.get('message');
             
             // Validate form
-            if (!name || !email || !message) {
+            if (!name || !email || !whatsapp || !message) {
                 showToast('Por favor, preencha todos os campos obrigatórios.', 'error');
                 return;
             }
@@ -96,6 +234,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 showToast('Por favor, insira um email válido.', 'error');
+                return;
+            }
+            
+            // WhatsApp validation
+            if (!whatsappValid) {
+                showToast('Por favor, insira um número de WhatsApp válido.', 'error');
                 return;
             }
             
@@ -113,12 +257,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show success message
                 showToast('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
                 
-                // Reset form
+                // Reset form and validation state
                 contactForm.reset();
+                whatsappValid = false;
+                whatsappStatus.className = 'whatsapp-status';
+                updateSubmitButton();
                 
                 // Optional: Redirect to WhatsApp with pre-filled message
                 const whatsappMessage = encodeURIComponent(
-                    `Olá! Meu nome é ${name} e gostaria de saber mais sobre os serviços da HAVR Tecnologia. Deixei uma mensagem através do site com os seguintes detalhes: ${message}`
+                    `Olá! Meu nome é ${name} e gostaria de saber mais sobre os serviços da HAVR Tecnologia. Meu WhatsApp é ${whatsapp}. Deixei uma mensagem através do site: ${message}`
                 );
                 
                 setTimeout(() => {
@@ -131,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } finally {
                 // Reset button state
                 submitButton.textContent = originalText;
-                submitButton.disabled = false;
+                submitButton.disabled = !whatsappValid;
                 submitButton.classList.remove('loading');
             }
         });
