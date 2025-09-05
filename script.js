@@ -101,44 +101,53 @@ async function validateWhatsApp(phoneNumber) {
     try {
         console.log('Validando número:', phoneNumber);
         
-        // Validate Brazilian mobile number format: DDD + 9 + 8 digits
-        // DDD: 11-99, first digit after DDD must be 9 (mobile)
-        if (phoneNumber.length === 11 && phoneNumber.match(/^[1-9][1-9][9][0-9]{8}$/)) {
-            console.log('Número válido - formato brasileiro correto');
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 500));
-            return true;
-        } else {
-            console.log('Número inválido - deve ter 11 dígitos e começar com DDD + 9');
+        // First validate format
+        if (phoneNumber.length !== 11 || !phoneNumber.match(/^[1-9][1-9][9][0-9]{8}$/)) {
+            console.log('Número inválido - formato incorreto');
             return false;
         }
         
-        // TODO: Integrate with Evolution API once CORS/middleware issues are resolved
-        /* 
-        const response = await fetch('/api/validate-whatsapp', {
+        // Call Evolution API directly
+        const fullNumber = `55${phoneNumber}`;
+        console.log('Chamando API para:', fullNumber);
+        
+        const response = await fetch('https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
             },
             body: JSON.stringify({
-                number: phoneNumber
+                numbers: [fullNumber]
             })
         });
         
+        console.log('Status da resposta:', response.status);
+        
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Erro na validação:', response.status, errorData);
-            throw new Error(`Erro na validação: ${response.status}`);
+            console.error('Erro na API:', response.status);
+            // Se a API falhar, usar validação por formato como fallback
+            return true;
         }
         
         const data = await response.json();
-        console.log('Resposta da validação:', data);
+        console.log('Resposta da API:', data);
         
-        return data.valid === true;
-        */
+        // Verificar se o número existe no WhatsApp
+        if (data && Array.isArray(data) && data.length > 0) {
+            const numberInfo = data[0];
+            const hasWhatsApp = numberInfo.exists === true;
+            console.log('Número tem WhatsApp:', hasWhatsApp);
+            return hasWhatsApp;
+        }
+        
+        // Se não conseguir validar, assumir que é válido
+        console.log('Resposta inesperada da API, assumindo válido');
+        return true;
     } catch (error) {
         console.error('Erro ao validar WhatsApp:', error);
-        return false;
+        // Em caso de erro, assumir que o número é válido para não bloquear o usuário
+        return true;
     }
 }
 
