@@ -118,7 +118,7 @@ async function validateWhatsApp(phoneNumber) {
         console.log('Method:', 'POST');
         console.log('Headers:', {
             'Content-Type': 'application/json',
-            'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
+            'apikey': 'vyspKHAUPJcGL5RkvdBrdUBGMDmnS6AG'
         });
         console.log('Body enviado:', JSON.stringify(requestBody));
         console.log('Número completo:', fullNumber);
@@ -127,7 +127,7 @@ async function validateWhatsApp(phoneNumber) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
+                'apikey': 'vyspKHAUPJcGL5RkvdBrdUBGMDmnS6AG'
             },
             body: JSON.stringify(requestBody)
         });
