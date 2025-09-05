@@ -116,10 +116,10 @@ async function validateWhatsApp(phoneNumber) {
         
         const data = await response.json();
         
-        // Check if the number has WhatsApp
-        if (data && data.length > 0) {
+        // Check if the response has the expected format and exists is true
+        if (data && Array.isArray(data) && data.length > 0) {
             const numberInfo = data[0];
-            return numberInfo.exists === true || numberInfo.jid;
+            return numberInfo.exists === true;
         }
         
         return false;
