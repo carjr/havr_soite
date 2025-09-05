@@ -109,7 +109,19 @@ async function validateWhatsApp(phoneNumber) {
         
         // Call Evolution API directly
         const fullNumber = `55${phoneNumber}`;
-        console.log('Chamando API para:', fullNumber);
+        const requestBody = {
+            numbers: [fullNumber]
+        };
+        
+        console.log('=== CHAMADA DA API ===');
+        console.log('URL:', 'https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr');
+        console.log('Method:', 'POST');
+        console.log('Headers:', {
+            'Content-Type': 'application/json',
+            'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
+        });
+        console.log('Body enviado:', JSON.stringify(requestBody));
+        console.log('Número completo:', fullNumber);
         
         const response = await fetch('https://evolutionapi.eduflow.com.br/chat/whatsappNumbers/havr', {
             method: 'POST',
@@ -117,21 +129,40 @@ async function validateWhatsApp(phoneNumber) {
                 'Content-Type': 'application/json',
                 'apikey': 'C6E3CD01-3399-4BC3-A1E2-5A44B8D893FD'
             },
-            body: JSON.stringify({
-                numbers: [fullNumber]
-            })
+            body: JSON.stringify(requestBody)
         });
         
-        console.log('Status da resposta:', response.status);
+        console.log('=== RESPOSTA DA API ===');
+        console.log('Status:', response.status);
+        console.log('Status Text:', response.statusText);
+        console.log('Headers:', Object.fromEntries(response.headers.entries()));
+        
+        let responseText = '';
+        try {
+            responseText = await response.text();
+            console.log('Resposta bruta:', responseText);
+        } catch (e) {
+            console.error('Erro ao ler resposta:', e);
+        }
         
         if (!response.ok) {
-            console.error('Erro na API:', response.status);
+            console.error('=== ERRO NA API ===');
+            console.error('Status:', response.status);
+            console.error('Resposta completa:', responseText);
             // Se a API falhar, usar validação por formato como fallback
             return true;
         }
         
-        const data = await response.json();
-        console.log('Resposta da API:', data);
+        let data;
+        try {
+            data = JSON.parse(responseText);
+            console.log('=== DADOS PARSEADOS ===');
+            console.log('Resposta JSON:', data);
+        } catch (e) {
+            console.error('Erro ao parsear JSON:', e);
+            console.log('Resposta não é JSON válido:', responseText);
+            return true;
+        }
         
         // Verificar se o número existe no WhatsApp
         if (data && Array.isArray(data) && data.length > 0) {
