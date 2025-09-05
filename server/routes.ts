@@ -16,7 +16,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile(path.resolve(process.cwd(), 'index.html'));
   });
 
-  // WhatsApp validation endpoint
+  // WhatsApp validation endpoint - moved to avoid Vite interception
   app.post("/api/validate-whatsapp", async (req, res) => {
     try {
       const { number } = req.body;

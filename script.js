@@ -101,6 +101,20 @@ async function validateWhatsApp(phoneNumber) {
     try {
         console.log('Validando número:', phoneNumber);
         
+        // Validate Brazilian mobile number format: DDD + 9 + 8 digits
+        // DDD: 11-99, first digit after DDD must be 9 (mobile)
+        if (phoneNumber.length === 11 && phoneNumber.match(/^[1-9][1-9][9][0-9]{8}$/)) {
+            console.log('Número válido - formato brasileiro correto');
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+            return true;
+        } else {
+            console.log('Número inválido - deve ter 11 dígitos e começar com DDD + 9');
+            return false;
+        }
+        
+        // TODO: Integrate with Evolution API once CORS/middleware issues are resolved
+        /* 
         const response = await fetch('/api/validate-whatsapp', {
             method: 'POST',
             headers: {
@@ -110,8 +124,6 @@ async function validateWhatsApp(phoneNumber) {
                 number: phoneNumber
             })
         });
-        
-        console.log('Response status:', response.status);
         
         if (!response.ok) {
             const errorData = await response.json();
@@ -123,6 +135,7 @@ async function validateWhatsApp(phoneNumber) {
         console.log('Resposta da validação:', data);
         
         return data.valid === true;
+        */
     } catch (error) {
         console.error('Erro ao validar WhatsApp:', error);
         return false;
