@@ -461,7 +461,7 @@ body {
 /* Services Section */
 .services {
     padding: 6rem 0;
-    background-color: var(--background-secondary);
+    background: linear-gradient(180deg, #00bcd4 0%, var(--background-secondary) 15%, var(--background-secondary) 100%);
 }
 
 .section-header {
