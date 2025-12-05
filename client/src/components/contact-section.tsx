@@ -50,7 +50,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contato" className="py-24 dark-section">
+    <section id="contato" className="py-24 bg-[#0a0f1a]">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16" data-testid="contact-header">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4" data-testid="contact-title">
