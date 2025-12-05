@@ -13,7 +13,7 @@ body {
     font-family: 'Inter', system-ui, sans-serif;
     line-height: 1.6;
     color: #f1f5f9;
-    background-color: var(--background);
+    background-color: #0a0f1a;
 }
 
 .container {
@@ -41,8 +41,8 @@ body {
     --success: #10b981;
     --warning: #f59e0b;
     --green: #22c55e;
-    --background: #0f172a;
-    --background-secondary: #1e293b;
+    --background: #0a0f1a;
+    --background-secondary: #0a0f1a;
 }
 
 /* Typography */
@@ -461,7 +461,7 @@ body {
 /* Services Section */
 .services {
     padding: 6rem 0;
-    background: linear-gradient(180deg, #00bcd4 0%, var(--background-secondary) 15%, var(--background-secondary) 100%);
+    background-color: #0a0f1a;
 }
 
 .section-header {
@@ -538,7 +538,7 @@ body {
 /* Systems Section */
 .systems {
     padding: 6rem 0;
-    background-color: var(--background);
+    background-color: #0a0f1a;
 }
 
 .systems-grid {
@@ -650,7 +650,7 @@ body {
 /* About Section */
 .about {
     padding: 6rem 0;
-    background-color: var(--background-secondary);
+    background-color: #0a0f1a;
 }
 
 .about-content {
@@ -746,7 +746,7 @@ body {
 /* Contact Section */
 .contact {
     padding: 6rem 0;
-    background-color: var(--background);
+    background-color: #0a0f1a;
 }
 
 .contact-content {
