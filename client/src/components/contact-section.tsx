@@ -50,24 +50,24 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contato" className="py-24 bg-background">
+    <section id="contato" className="py-24 dark-section">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16" data-testid="contact-header">
-          <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4" data-testid="contact-title">
-            Entre em <span className="text-primary">Contato</span>
+          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4" data-testid="contact-title">
+            Entre em <span className="text-accent">Contato</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="contact-subtitle">
+          <p className="text-xl text-white/70 max-w-3xl mx-auto" data-testid="contact-subtitle">
             Vamos conversar sobre como podemos impulsionar seu negócio com tecnologia
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <div className="bg-card p-8 rounded-2xl border border-border" data-testid="contact-form">
-            <h3 className="text-2xl font-semibold text-card-foreground mb-6">Envie sua mensagem</h3>
+          <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10" data-testid="contact-form">
+            <h3 className="text-2xl font-semibold text-white mb-6">Envie sua mensagem</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <Label htmlFor="name" className="text-sm font-medium text-card-foreground mb-2">
+                <Label htmlFor="name" className="text-sm font-medium text-white mb-2">
                   Nome completo
                 </Label>
                 <Input
@@ -77,12 +77,12 @@ export function ContactSection() {
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full"
+                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50"
                   data-testid="input-name"
                 />
               </div>
               <div>
-                <Label htmlFor="email" className="text-sm font-medium text-card-foreground mb-2">
+                <Label htmlFor="email" className="text-sm font-medium text-white mb-2">
                   Email
                 </Label>
                 <Input
@@ -92,12 +92,12 @@ export function ContactSection() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full"
+                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50"
                   data-testid="input-email"
                 />
               </div>
               <div>
-                <Label htmlFor="message" className="text-sm font-medium text-card-foreground mb-2">
+                <Label htmlFor="message" className="text-sm font-medium text-white mb-2">
                   Mensagem
                 </Label>
                 <Textarea
@@ -107,14 +107,14 @@ export function ContactSection() {
                   required
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="w-full resize-none"
+                  className="w-full resize-none bg-white/10 border-white/20 text-white placeholder:text-white/50"
                   data-testid="input-message"
                 />
               </div>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full bg-primary text-white hover:bg-primary/90"
                 data-testid="button-submit-form"
               >
                 {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
@@ -124,35 +124,35 @@ export function ContactSection() {
 
           {/* Contact Info */}
           <div className="space-y-8">
-            <div className="bg-card p-8 rounded-2xl border border-border" data-testid="contact-info">
-              <h3 className="text-2xl font-semibold text-card-foreground mb-6">Ou fale diretamente conosco</h3>
+            <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10" data-testid="contact-info">
+              <h3 className="text-2xl font-semibold text-white mb-6">Ou fale diretamente conosco</h3>
               
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
                     <MessageSquare className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card-foreground">WhatsApp</h4>
-                    <p className="text-muted-foreground">Atendimento imediato via IA</p>
+                    <h4 className="font-semibold text-white">WhatsApp</h4>
+                    <p className="text-white/70">Atendimento imediato via IA</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
                     <Mail className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card-foreground">Email</h4>
-                    <p className="text-muted-foreground">contato@havrtecnologia.com</p>
+                    <h4 className="font-semibold text-white">Email</h4>
+                    <p className="text-white/70">contato@havrtecnologia.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
                     <Clock className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card-foreground">Horário</h4>
-                    <p className="text-muted-foreground">24/7 com IA - Segunda à Sexta 8h às 18h</p>
+                    <h4 className="font-semibold text-white">Horário</h4>
+                    <p className="text-white/70">24/7 com IA - Segunda à Sexta 8h às 18h</p>
                   </div>
                 </div>
               </div>

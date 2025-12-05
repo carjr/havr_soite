@@ -16,7 +16,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white py-12" data-testid="footer">
+    <footer className="dark-section text-white py-12 border-t border-white/10" data-testid="footer">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company */}
