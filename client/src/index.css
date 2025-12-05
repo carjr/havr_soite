@@ -106,6 +106,21 @@
     pointer-events: none;
   }
 
+  .gradient-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent 0%, #0a1628 100%);
+    pointer-events: none;
+  }
+
+  .services-gradient {
+    background: linear-gradient(to bottom, #0a1628 0%, #0d1a2d 50%, #0f1f35 100%);
+  }
+
   .tech-pattern {
     background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
     background-size: 20px 20px;

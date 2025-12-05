@@ -25,13 +25,13 @@ export function ServicesSection() {
   ];
 
   return (
-    <section id="servicos" className="py-24 bg-muted/50">
+    <section id="servicos" className="py-24 services-gradient">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16" data-testid="services-header">
-          <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4" data-testid="services-title">
-            Nossos <span className="text-primary">Serviços</span>
+          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4" data-testid="services-title">
+            Nossos <span className="text-accent">Serviços</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="services-subtitle">
+          <p className="text-xl text-white/70 max-w-3xl mx-auto" data-testid="services-subtitle">
             Oferecemos soluções completas em tecnologia para impulsionar seu negócio
           </p>
         </div>
@@ -40,16 +40,16 @@ export function ServicesSection() {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="bg-card p-8 rounded-2xl border border-border hover-lift group"
+              className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover-lift group"
               data-testid={`service-card-${index}`}
             >
-              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                <service.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground" />
+              <div className="w-16 h-16 bg-primary/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                <service.icon className="w-8 h-8 text-primary group-hover:text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-card-foreground mb-4" data-testid={`service-title-${index}`}>
+              <h3 className="text-xl font-semibold text-white mb-4" data-testid={`service-title-${index}`}>
                 {service.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed" data-testid={`service-description-${index}`}>
+              <p className="text-white/70 leading-relaxed" data-testid={`service-description-${index}`}>
                 {service.description}
               </p>
             </div>
