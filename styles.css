@@ -415,8 +415,19 @@ body {
         text-align: left;
     }
     
+    .hero-content.hero-content-centered {
+        grid-template-columns: 1fr;
+        text-align: center;
+        max-width: 64rem;
+        margin: 0 auto;
+    }
+    
     .hero-text {
         text-align: left;
+    }
+    
+    .hero-text.hero-text-centered {
+        text-align: center;
     }
     
     .hero-title {
@@ -427,8 +438,16 @@ body {
         justify-content: flex-start;
     }
     
+    .hero-buttons.hero-buttons-centered {
+        justify-content: center;
+    }
+    
     .hero-stats {
         justify-content: flex-start;
+    }
+    
+    .hero-stats.hero-stats-centered {
+        justify-content: center;
     }
     
     .hero-illustration {
