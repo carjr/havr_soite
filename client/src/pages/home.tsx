@@ -9,7 +9,7 @@ import { FloatingWhatsApp } from "@/components/floating-whatsapp";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0a0f1a]">
+    <div className="min-h-screen" style={{ backgroundColor: '#0a0f1a' }}>
       <Navbar />
       <HeroSection />
       <ServicesSection />

@@ -25,7 +25,7 @@ export function ServicesSection() {
   ];
 
   return (
-    <section id="servicos" className="py-24 bg-[#0a0f1a]">
+    <section id="servicos" className="py-24" style={{ backgroundColor: '#0a0f1a' }}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16" data-testid="services-header">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4" data-testid="services-title">

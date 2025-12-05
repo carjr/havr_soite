@@ -20,7 +20,7 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="sobre" className="py-24 bg-[#0a0f1a]">
+    <section id="sobre" className="py-24" style={{ backgroundColor: '#0a0f1a' }}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8" data-testid="about-content">
