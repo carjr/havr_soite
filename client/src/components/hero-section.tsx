@@ -18,9 +18,9 @@ export function HeroSection() {
   return (
     <section id="inicio" className="pt-16 min-h-screen flex items-center gradient-bg relative">
       <div 
-        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" 
+        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" 
         style={{ 
-          background: 'linear-gradient(to bottom, transparent 0%, #0a0f1a 100%)',
+          background: 'linear-gradient(to bottom, transparent 0%, #0066ff 100%)',
           zIndex: 20
         }} 
       />
