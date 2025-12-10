@@ -12,12 +12,6 @@ export default function Home() {
     <div className="min-h-screen" style={{ backgroundColor: '#0a0f1a' }}>
       <Navbar />
       <HeroSection />
-      <div 
-        className="h-32" 
-        style={{ 
-          background: 'linear-gradient(to bottom, #00bcd4 0%, #0a0f1a 100%)' 
-        }} 
-      />
       <ServicesSection />
       <SystemsSection />
       <AboutSection />
